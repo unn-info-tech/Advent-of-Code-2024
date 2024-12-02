@@ -1002,7 +1002,6 @@ data = """
 56126   28988
 """
 
-# Split the input into left and right lists
 left_list = []
 right_list = []
 
