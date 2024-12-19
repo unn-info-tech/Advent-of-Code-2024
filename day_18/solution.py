@@ -52,4 +52,43 @@ shortest_path_length = bfs_shortest_path(grid, start, target)
 
 print("Shortest path length:", shortest_path_length)
 
+# PART TWO
+from collections import deque
 
+def bfs_shortest_path(grid, start, target):
+    rows, cols = len(grid), len(grid[0])
+    queue = deque([(start, 0)])
+
+    visited = set(start)
+
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+    while queue:
+        (x, y), dist = queue.popleft()
+
+        if (x, y) == target:
+            visited.clear()
+            return True
+
+        for dx, dy in directions:
+            nx, ny = x + dx, y + dy
+
+            if 0 <= nx < cols and 0 <= ny < rows and grid[ny][nx] != '#' and (nx, ny) not in visited:
+                queue.append(((nx, ny), dist + 1))
+                visited.add((nx, ny))
+    visited.clear()
+    return False
+
+
+
+
+rows, cols = len(grid), len(grid[0])
+start = (0, 0)
+target = (70, 70)
+for i in range(1023, len(corrupted_positions)):
+    x, y = corrupted_positions[i]
+    if 0 <= x < cols and 0 <= y < rows:
+        grid[y][x] = '#'
+        if not bfs_shortest_path(grid, start, target):
+            print("First byte that prevents the exit:", x, y)
+            break
